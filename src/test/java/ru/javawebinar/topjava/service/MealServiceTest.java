@@ -48,14 +48,14 @@ public class MealServiceTest {
     }
 
 
-//    @Test
-//    public void update() throws Exception {
-//        Meal updated = new Meal();
-//        updated.setName("UpdatedName");
-//        updated.setCaloriesPerDay(330);
-//        service.update(updated);
-//        assertMatch(service.get(), updated);
-//    }
+    @Test
+    public void update() throws Exception {
+        Meal updated = service.get(100003,100001);
+        updated.setDescription("UpdatedName");
+        updated.setCalories(1000);
+        service.update(updated,100001);
+        assertMatch(service.get(100003,100001), updated);
+    }
 
     @Test
     public void get() {
