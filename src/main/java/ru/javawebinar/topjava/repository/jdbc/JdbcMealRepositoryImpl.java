@@ -57,18 +57,18 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        return jdbcTemplate.update("DELETE FROM meals WHERE id=?", id) != 0;
+        return jdbcTemplate.update("DELETE FROM meals WHERE id=? and user_id=?", id,userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE id=?", ROW_MAPPER, id);
+        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE id=? and user_id=?", ROW_MAPPER, id,userId);
         return DataAccessUtils.singleResult(meals);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        List<Meal> res = jdbcTemplate.query("SELECT * FROM meals ORDER BY datetime", ROW_MAPPER);
+        List<Meal> res = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY datetime DESC", ROW_MAPPER,userId);
         return res;
     }
 
@@ -78,7 +78,8 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         Timestamp endTime = Timestamp.valueOf(endDate);
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("startDate", startDate)
-                .addValue("endDate",endDate);
-        return namedParameterJdbcTemplate.query("SELECT * FROM meals WHERE (datetime>:startDate AND datetime<:endDate)",map,ROW_MAPPER);
+                .addValue("endDate",endDate)
+                .addValue("user_id",userId);
+        return namedParameterJdbcTemplate.query("SELECT * FROM meals WHERE user_id=:user_id AND (datetime>:startDate AND datetime<:endDate)  ",map,ROW_MAPPER);
     }
 }
