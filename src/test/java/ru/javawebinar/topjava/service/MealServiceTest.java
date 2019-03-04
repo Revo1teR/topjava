@@ -19,6 +19,7 @@ import static ru.javawebinar.topjava.MealTestData.TESTMEAL2;
 import static ru.javawebinar.topjava.MealTestData.assertMatch;
 
 @ContextConfiguration({
+        "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml",
 })
 @RunWith(SpringRunner.class)
