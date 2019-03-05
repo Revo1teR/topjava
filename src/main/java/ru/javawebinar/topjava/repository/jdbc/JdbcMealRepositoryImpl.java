@@ -68,7 +68,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        List<Meal> res = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY datetime DESC", ROW_MAPPER,userId);
+        List<Meal> res = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY date_time DESC", ROW_MAPPER,userId);
         return res;
     }
 
@@ -78,6 +78,6 @@ public class JdbcMealRepositoryImpl implements MealRepository {
                 .addValue("startDate", startDate)
                 .addValue("endDate",endDate)
                 .addValue("user_id",userId);
-        return namedParameterJdbcTemplate.query("SELECT * FROM meals WHERE user_id=:user_id AND (datetime>:startDate AND datetime<:endDate)  ",map,ROW_MAPPER);
+        return namedParameterJdbcTemplate.query("SELECT * FROM meals WHERE user_id=:user_id AND (date_time>:startDate AND date_time<:endDate) ORDER BY date_time DESC  ",map,ROW_MAPPER);
     }
 }
